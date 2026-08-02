@@ -393,3 +393,216 @@
 2026-08-02 03:20:04 | INFO | BI | ========================
 2026-08-02 03:20:04 | INFO | BI | Executed successfully!
 2026-08-02 03:20:04 | INFO | BI | ========================
+2026-08-02 03:52:55 | INFO | BI | === RUN START ===
+2026-08-02 03:52:55 | INFO | BI | project=MFG
+2026-08-02 03:52:55 | INFO | BI | repo_dir=bintel-05-reporting
+2026-08-02 03:52:55 | INFO | BI | python=3.14.6
+2026-08-02 03:52:55 | INFO | BI | os=Windows 11
+2026-08-02 03:52:55 | INFO | BI | shell=powershell
+2026-08-02 03:52:55 | INFO | BI | cwd=.
+2026-08-02 03:52:55 | INFO | BI | github_actions=False
+2026-08-02 03:52:55 | INFO | BI | ========================
+2026-08-02 03:52:55 | INFO | BI | START main()
+2026-08-02 03:52:55 | INFO | BI | ========================
+2026-08-02 03:52:55 | INFO | BI | Connecting to in-memory DuckDB........
+2026-08-02 03:52:55 | INFO | BI | CALL a function to create the reporting view........
+2026-08-02 03:52:55 | INFO | BI | Creating the manufacturing_reporting view
+2026-08-02 03:52:55 | INFO | BI |   manufacturing_reporting view created
+2026-08-02 03:52:55 | INFO | BI | CALL a function to export reporting data........
+2026-08-02 03:52:55 | INFO | BI | Exporting the reporting-ready dataset
+2026-08-02 03:52:55 | INFO | BI |   Exported 8062 reporting rows
+2026-08-02 03:52:55 | INFO | BI | CALL a function to slice defects by shift........
+2026-08-02 03:52:55 | INFO | BI | OLAP slice: defect rate by Shift for 'Line-C'
+2026-08-02 03:52:55 | INFO | BI |   Shifts in the slice: 3
+2026-08-02 03:52:55 | INFO | BI | CALL a function to plot the slice result........
+2026-08-02 03:52:55 | INFO | BI | Creating chart: Defect Rate by Shift on Line-C
+2026-08-02 03:52:56 | INFO | BI | CALL a function to dice downtime by line and shift........
+2026-08-02 03:52:56 | INFO | BI | OLAP dice: Lines = ('Line-C', 'Line-B'); Shifts = ('Morning', 'Night')
+2026-08-02 03:52:56 | INFO | BI |   Line-shift combinations: 4
+2026-08-02 03:52:56 | INFO | BI | CALL a function to plot the dice result........
+2026-08-02 03:52:56 | INFO | BI | Creating chart: Downtime for Selected Lines and Shifts
+2026-08-02 03:52:56 | INFO | BI | CALL a function to rank worst machines by downtime........
+2026-08-02 03:52:56 | INFO | BI | OLAP top-N: ranking machines by downtime (top 5)
+2026-08-02 03:52:56 | INFO | BI |   Top machines returned: 5
+2026-08-02 03:52:56 | INFO | BI | CALL a function to plot the top-machines result........
+2026-08-02 03:52:56 | INFO | BI | Creating chart: Top 5 Machines by Total Downtime
+2026-08-02 03:52:56 | INFO | BI | CALL a function to roll up downtime by time........
+2026-08-02 03:52:56 | INFO | BI | OLAP roll-up: Month -> Quarter -> Year -> All
+2026-08-02 03:52:56 | INFO | BI |   Roll-up rows returned: 35
+2026-08-02 03:52:56 | INFO | BI | CALL a function to plot quarterly roll-up results........
+2026-08-02 03:52:56 | INFO | BI | Creating chart: Quarterly Downtime Roll-Up
+2026-08-02 03:52:56 | INFO | BI | CALL a function to select a drill-down year........
+2026-08-02 03:52:56 | INFO | BI | CALL a function to drill down by time........
+2026-08-02 03:52:56 | INFO | BI | OLAP drill-down: Year 2025 -> Quarter -> Month
+2026-08-02 03:52:56 | INFO | BI |   Drill-down rows returned: 12
+2026-08-02 03:52:56 | INFO | BI | CALL a function to plot monthly drill-down results........
+2026-08-02 03:52:56 | INFO | BI | Creating chart: Monthly Downtime Drill-Down for 2025
+2026-08-02 03:52:56 | INFO | BI | CALL a function to summarize findings........
+2026-08-02 03:52:56 | INFO | BI | ========================
+2026-08-02 03:52:56 | INFO | BI | SUMMARY
+2026-08-02 03:52:56 | INFO | BI | ========================
+2026-08-02 03:52:56 | INFO | BI | Slice: On Line-C, the Afternoon shift has the highest defect rate (2.81%)
+2026-08-02 03:52:56 | INFO | BI | Dice: The most downtime among selected combinations is Line-B / Night (16,090 minutes)
+2026-08-02 03:52:56 | INFO | BI | Roll-up: Total downtime across all time is 143,318 minutes
+2026-08-02 03:52:56 | INFO | BI | Drill-down: The worst month for downtime in 2025 is 2025-04 (6,891 minutes)
+2026-08-02 03:52:56 | INFO | BI | Top Machine: The machine causing the most downtime overall is M-201 on Line-B (35,086 minutes)
+2026-08-02 03:52:56 | INFO | BI | ========================
+2026-08-02 03:52:56 | INFO | BI | ENGINEER NOTES:
+2026-08-02 03:52:56 | INFO | BI | Use slice to focus on one production line.
+2026-08-02 03:52:56 | INFO | BI | Use dice to compare a targeted subset of lines and shifts.
+2026-08-02 03:52:56 | INFO | BI | Use roll-up to move from daily detail to broader summaries.
+2026-08-02 03:52:56 | INFO | BI | Use drill-down to investigate the detail behind a summary.
+2026-08-02 03:52:56 | INFO | BI | Use a top-N ranking to prioritize maintenance attention.
+2026-08-02 03:52:56 | INFO | BI | ========================
+2026-08-02 03:52:56 | INFO | BI | CALL a function to show charts........
+2026-08-02 03:54:10 | INFO | BI | Closed DuckDB connection
+2026-08-02 03:54:10 | INFO | BI | Workflow complete
+2026-08-02 03:54:10 | INFO | BI | CLOSE chart windows to continue.
+2026-08-02 03:54:10 | INFO | BI | ========================
+2026-08-02 03:54:10 | INFO | BI | Executed successfully!
+2026-08-02 03:54:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | === RUN START ===
+2026-08-02 04:06:10 | INFO | BI | project=BI
+2026-08-02 04:06:10 | INFO | BI | repo_dir=bintel-05-reporting
+2026-08-02 04:06:10 | INFO | BI | python=3.14.6
+2026-08-02 04:06:10 | INFO | BI | os=Windows 11
+2026-08-02 04:06:10 | INFO | BI | shell=powershell
+2026-08-02 04:06:10 | INFO | BI | cwd=.
+2026-08-02 04:06:10 | INFO | BI | github_actions=False
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | START main()
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | Data warehouse: = artifacts\smart_sales.duckdb
+2026-08-02 04:06:10 | INFO | BI | Reporting data: = data\reporting\sales_reporting_abdelhafidh.csv
+2026-08-02 04:06:10 | INFO | BI | Connecting to DuckDB data warehouse........
+2026-08-02 04:06:10 | INFO | BI | CALL a function to verify the warehouse........
+2026-08-02 04:06:10 | INFO | BI | Verifying required warehouse tables
+2026-08-02 04:06:10 | INFO | BI |   PASS: All required warehouse tables are available
+2026-08-02 04:06:10 | INFO | BI | CALL a function to create the reporting view........
+2026-08-02 04:06:10 | INFO | BI | Creating the sales_reporting view
+2026-08-02 04:06:10 | INFO | BI |   sales_reporting view created
+2026-08-02 04:06:10 | INFO | BI | CALL a function to export reporting data........
+2026-08-02 04:06:10 | INFO | BI | Exporting the reporting-ready dataset
+2026-08-02 04:06:10 | INFO | BI |   Exported 2392 reporting rows
+2026-08-02 04:06:10 | INFO | BI | Reporting data: = data\reporting\sales_reporting_abdelhafidh.csv
+2026-08-02 04:06:10 | INFO | BI | CALL a function to slice sales by region........
+2026-08-02 04:06:10 | INFO | BI | OLAP slice: sales for Region = 'East'
+2026-08-02 04:06:10 | INFO | BI |   Categories in the slice: 4
+2026-08-02 04:06:10 | INFO | BI | CALL a function to plot the slice result........
+2026-08-02 04:06:10 | INFO | BI | Creating chart: Sales by Category in East
+2026-08-02 04:06:10 | INFO | BI | CALL a function to dice sales by dimensions........
+2026-08-02 04:06:10 | INFO | BI | OLAP dice: Regions = ('East', 'West'); Categories = ('Clothing', 'Electronics')
+2026-08-02 04:06:10 | INFO | BI |   Region-category combinations: 4
+2026-08-02 04:06:10 | INFO | BI | CALL a function to plot the dice result........
+2026-08-02 04:06:10 | INFO | BI | Creating chart: Sales for Selected Regions and Categories
+2026-08-02 04:06:10 | INFO | BI | CALL a function to rank top products by sales........
+2026-08-02 04:06:10 | INFO | BI | OLAP top-N: ranking products by total sales (top 5)
+2026-08-02 04:06:10 | INFO | BI |   Top products returned: 5
+2026-08-02 04:06:10 | INFO | BI | CALL a function to plot the top-products result........
+2026-08-02 04:06:10 | INFO | BI | Creating chart: Top 5 Products by Total Sales
+2026-08-02 04:06:10 | INFO | BI | CALL a function to roll up sales by time........
+2026-08-02 04:06:10 | INFO | BI | OLAP roll-up: Month -> Quarter -> Year -> All Years
+2026-08-02 04:06:10 | INFO | BI |   Roll-up rows returned: 20
+2026-08-02 04:06:10 | INFO | BI | CALL a function to plot quarterly roll-up results........
+2026-08-02 04:06:10 | INFO | BI | Creating chart: Quarterly Sales Roll-Up
+2026-08-02 04:06:10 | INFO | BI | CALL a function to select a drill-down year........
+2026-08-02 04:06:10 | INFO | BI | Finding the latest sales year for drill-down
+2026-08-02 04:06:10 | INFO | BI |   Selected drill-down year: 2025
+2026-08-02 04:06:10 | INFO | BI | CALL a function to drill down by time........
+2026-08-02 04:06:10 | INFO | BI | OLAP drill-down: Year 2025 -> Quarter -> Month
+2026-08-02 04:06:10 | INFO | BI |   Drill-down rows returned: 8
+2026-08-02 04:06:10 | INFO | BI | CALL a function to plot monthly drill-down results........
+2026-08-02 04:06:10 | INFO | BI | Creating chart: Monthly Sales Drill-Down for 2025
+2026-08-02 04:06:10 | INFO | BI | CALL a function to summarize OLAP findings........
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | SUMMARY
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | Slice: In East, the leading category is Office ($456,342.94)
+2026-08-02 04:06:10 | INFO | BI | Dice: The strongest selected combination is East / Electronics ($218,291.81)
+2026-08-02 04:06:10 | INFO | BI | Roll-up: Total sales across all years are $3,673,389.85
+2026-08-02 04:06:10 | INFO | BI | Drill-down: The strongest month in 2025 is 2025-05 ($369,056.60)
+2026-08-02 04:06:10 | INFO | BI | Top Product: The best-selling product overall is Office-Recent (Office), ($259,512.53)
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | ANALYST NOTES:
+2026-08-02 04:06:10 | INFO | BI | Use slice to focus on one dimension value.
+2026-08-02 04:06:10 | INFO | BI | Use dice to investigate a selected multidimensional subset.
+2026-08-02 04:06:10 | INFO | BI | Use roll-up to move from detail to broader summaries.
+2026-08-02 04:06:10 | INFO | BI | Use drill-down to investigate the detail behind a summary.
+2026-08-02 04:06:10 | INFO | BI | Use a top-N ranking to identify leading individual performers.
+2026-08-02 04:06:10 | INFO | BI | ========================
+2026-08-02 04:06:10 | INFO | BI | CALL a function to show charts........
+2026-08-02 04:08:19 | INFO | BI | Closed DuckDB connection
+2026-08-02 04:08:19 | INFO | BI | Workflow complete
+2026-08-02 04:08:19 | INFO | BI | CLOSE chart windows to continue.
+2026-08-02 04:08:19 | INFO | BI | Terminate this process with CTRL+c as needed.
+2026-08-02 04:08:19 | INFO | BI | ========================
+2026-08-02 04:08:19 | INFO | BI | Executed successfully!
+2026-08-02 04:08:19 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | === RUN START ===
+2026-08-02 04:08:29 | INFO | BI | project=MFG
+2026-08-02 04:08:29 | INFO | BI | repo_dir=bintel-05-reporting
+2026-08-02 04:08:29 | INFO | BI | python=3.14.6
+2026-08-02 04:08:29 | INFO | BI | os=Windows 11
+2026-08-02 04:08:29 | INFO | BI | shell=powershell
+2026-08-02 04:08:29 | INFO | BI | cwd=.
+2026-08-02 04:08:29 | INFO | BI | github_actions=False
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | START main()
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | Connecting to in-memory DuckDB........
+2026-08-02 04:08:29 | INFO | BI | CALL a function to create the reporting view........
+2026-08-02 04:08:29 | INFO | BI | Creating the manufacturing_reporting view
+2026-08-02 04:08:29 | INFO | BI |   manufacturing_reporting view created
+2026-08-02 04:08:29 | INFO | BI | CALL a function to export reporting data........
+2026-08-02 04:08:29 | INFO | BI | Exporting the reporting-ready dataset
+2026-08-02 04:08:29 | INFO | BI |   Exported 8062 reporting rows
+2026-08-02 04:08:29 | INFO | BI | CALL a function to slice defects by shift........
+2026-08-02 04:08:29 | INFO | BI | OLAP slice: defect rate by Shift for 'Line-C'
+2026-08-02 04:08:29 | INFO | BI |   Shifts in the slice: 3
+2026-08-02 04:08:29 | INFO | BI | CALL a function to plot the slice result........
+2026-08-02 04:08:29 | INFO | BI | Creating chart: Defect Rate by Shift on Line-C
+2026-08-02 04:08:29 | INFO | BI | CALL a function to dice downtime by line and shift........
+2026-08-02 04:08:29 | INFO | BI | OLAP dice: Lines = ('Line-C', 'Line-B'); Shifts = ('Morning', 'Night')
+2026-08-02 04:08:29 | INFO | BI |   Line-shift combinations: 4
+2026-08-02 04:08:29 | INFO | BI | CALL a function to plot the dice result........
+2026-08-02 04:08:29 | INFO | BI | Creating chart: Downtime for Selected Lines and Shifts
+2026-08-02 04:08:29 | INFO | BI | CALL a function to rank worst machines by downtime........
+2026-08-02 04:08:29 | INFO | BI | OLAP top-N: ranking machines by downtime (top 5)
+2026-08-02 04:08:29 | INFO | BI |   Top machines returned: 5
+2026-08-02 04:08:29 | INFO | BI | CALL a function to plot the top-machines result........
+2026-08-02 04:08:29 | INFO | BI | Creating chart: Top 5 Machines by Total Downtime
+2026-08-02 04:08:29 | INFO | BI | CALL a function to roll up downtime by time........
+2026-08-02 04:08:29 | INFO | BI | OLAP roll-up: Month -> Quarter -> Year -> All
+2026-08-02 04:08:29 | INFO | BI |   Roll-up rows returned: 35
+2026-08-02 04:08:29 | INFO | BI | CALL a function to plot quarterly roll-up results........
+2026-08-02 04:08:29 | INFO | BI | Creating chart: Quarterly Downtime Roll-Up
+2026-08-02 04:08:29 | INFO | BI | CALL a function to select a drill-down year........
+2026-08-02 04:08:29 | INFO | BI | CALL a function to drill down by time........
+2026-08-02 04:08:29 | INFO | BI | OLAP drill-down: Year 2025 -> Quarter -> Month
+2026-08-02 04:08:29 | INFO | BI |   Drill-down rows returned: 12
+2026-08-02 04:08:29 | INFO | BI | CALL a function to plot monthly drill-down results........
+2026-08-02 04:08:29 | INFO | BI | Creating chart: Monthly Downtime Drill-Down for 2025
+2026-08-02 04:08:29 | INFO | BI | CALL a function to summarize findings........
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | SUMMARY
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | Slice: On Line-C, the Afternoon shift has the highest defect rate (2.81%)
+2026-08-02 04:08:29 | INFO | BI | Dice: The most downtime among selected combinations is Line-B / Night (16,090 minutes)
+2026-08-02 04:08:29 | INFO | BI | Roll-up: Total downtime across all time is 143,318 minutes
+2026-08-02 04:08:29 | INFO | BI | Drill-down: The worst month for downtime in 2025 is 2025-04 (6,891 minutes)
+2026-08-02 04:08:29 | INFO | BI | Top Machine: The machine causing the most downtime overall is M-201 on Line-B (35,086 minutes)
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | ENGINEER NOTES:
+2026-08-02 04:08:29 | INFO | BI | Use slice to focus on one production line.
+2026-08-02 04:08:29 | INFO | BI | Use dice to compare a targeted subset of lines and shifts.
+2026-08-02 04:08:29 | INFO | BI | Use roll-up to move from daily detail to broader summaries.
+2026-08-02 04:08:29 | INFO | BI | Use drill-down to investigate the detail behind a summary.
+2026-08-02 04:08:29 | INFO | BI | Use a top-N ranking to prioritize maintenance attention.
+2026-08-02 04:08:29 | INFO | BI | ========================
+2026-08-02 04:08:29 | INFO | BI | CALL a function to show charts........
+2026-08-02 04:10:32 | INFO | BI | Closed DuckDB connection
+2026-08-02 04:10:32 | INFO | BI | Workflow complete
+2026-08-02 04:10:32 | INFO | BI | CLOSE chart windows to continue.
+2026-08-02 04:10:32 | INFO | BI | ========================
+2026-08-02 04:10:32 | INFO | BI | Executed successfully!
+2026-08-02 04:10:32 | INFO | BI | ========================

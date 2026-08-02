@@ -21,69 +21,176 @@ to get the example projects running on your machine.
 
 ## Phase 4. Technical Modification
 
-Describe your small technical modification to the example project.
+**What I changed:** I copied `olap_case.py` to a new file,
+`olap_abdelhafidh.py`, and added a new OLAP-style operation that was
+not present in the original example: a **Top N Products** ranking.
+This adds a new SQL query that groups sales by individual
+`ProductName` and `Category`, sorts by total sales descending, and
+returns the top 5 products overall (across every region and time
+period). I added a matching bar chart, extended the `summarize()`
+function to log the single best-selling product, and renamed the
+output CSV constant (`sales_reporting_abdelhafidh.csv`) so my version
+would not overwrite the original example's output file.
 
-Include:
+**Why I chose that change:** Slice, dice, roll-up, and drill-down all
+answer questions about *categories* or *time periods*. None of them
+answer a very common, very direct business question: "Which
+individual products should we highlight, restock, or promote?" A
+top-N ranking is a standard BI "leaderboard" pattern that fills that
+gap, and it's a natural extension of the existing dice logic (it
+still groups and sorts by a measure — it just doesn't fix a dimension
+value first).
 
-- What you changed
-- Why you chose that change
-- How you verified that it worked
-- What result, output, chart, metric, or behavior confirmed the change
+**How I verified that it worked:** I ran
+`uv run python -m bizintel.olap_abdelhafidh` and confirmed the script
+completed with `Executed successfully!` in the terminal and in
+`project.log`, with no errors. I also cross-checked the new query's
+logic before running it, to make sure the SQL was grouping and
+sorting correctly.
 
-Compared with the example project,
-explain what is different and why the change matters.
+**What result confirmed the change:** A new fifth chart appeared
+("Top 5 Products by Total Sales"), and the run summary logged a new
+line: `Top Product: The best-selling product overall is Office-Recent
+(Office), ($259,512.53)`. This is a genuinely new piece of
+information the original example never surfaced.
 
-Was it easy, or surprisingly challenging and why do you think so?
+**Compared with the example project:** the original tells you which
+*category* leads within a region, and which region/category
+*combination* is strongest. My version adds a third lens: which
+individual *product* is the strongest performer, independent of
+region. All three lenses are useful for different decisions (regional
+strategy vs. inventory/promotion decisions).
+
+**Was it easy or challenging?** The code change itself was moderate —
+writing a new SQL query and chart consistent with the rest of the
+file's style took some care, but followed an existing pattern.
+Getting it to actually *run* turned into a real challenge: Windows
+Smart App Control blocked `uv`'s managed Python interpreter entirely
+with `An Application Control policy has blocked this file`, which had
+nothing to do with my code. I diagnosed it by testing multiple Python
+interpreters directly (the system Python 3.13 worked, but `uv`'s
+managed 3.14 was blocked everywhere, even freshly recreated),
+confirmed via a Windows Security notification that Smart App Control
+specifically distrusted `uv`'s unsigned Python download, and resolved
+it by installing an officially signed Python 3.14 from python.org and
+pointing `uv` at that trusted interpreter.
 
 ## Phase 5. Custom Project
 
-Describe your custom OLAP reporting work.
+I applied the same OLAP reporting technique used in the sales example
+to a completely different business domain: **manufacturing process
+engineering**.
 
 ### Basis and Data
 
-Describe the data warehouse you queried.
+Since I don't have access to a real manufacturing database, I wrote
+`generate_manufacturing_data.py` to generate a realistic synthetic
+dataset: 8,062 daily production records spanning January 2024 through
+December 2025, across 4 production lines (Line-A through Line-D), 3
+shifts (Morning, Afternoon, Night), and 9 individual machines. Each
+record includes:
 
-Include:
+- **UnitsProduced** and **DefectiveUnits** - production volume and quality
+- **DowntimeMinutes** - unplanned machine downtime
+- **CycleTimeSeconds** and **ProcessTempC** - process engineering detail
 
-- The warehouse tables and what each contains
-- The business questions you chose to investigate
-- Why those questions matter to a business
+Two machines (M-201 on Line-B, M-303 on Line-C) were intentionally
+seeded with a higher baseline defect rate and downtime, so the
+analysis would surface a real, meaningful "worst performer" — not
+just random noise.
+
+**Business questions investigated:**
+
+- Which shift has the worst defect rate on our most problematic
+  production line?
+- How does downtime compare across a targeted set of lines and shifts?
+- How does total downtime trend by quarter and year?
+- Which months had the worst downtime in the most recent year?
+- Which individual machines cause the most downtime overall, and
+  should be prioritized for maintenance?
+
+These matter because defect rate and downtime directly drive cost:
+every defective unit is wasted material and labor, and every minute
+of downtime is lost production capacity. A plant manager or process
+engineer would use exactly this kind of report to decide where to
+focus quality-control attention and maintenance budget.
 
 ### OLAP Operations
 
-Describe the slice, dice, rollup, and drilldown operations you implemented.
-
-Include:
-
-1. Slice. What dimension you chose for your **slice** and why
-2. Dice. What two dimensions you chose for your **dice** and why
-3. Drilldown. What level of **drilldown** you implemented and what it revealed
-4. Rollup. What level of **rollup** you implemented and what higher-level summary it produced
-5. OS. Your operating system
-6. Reporting Tool. Which reporting path you used: Power BI or Apache Spark
-7. Custom Reporting. What **custom operation** or **query** you added beyond the example
+1. **Slice.** I sliced by `ProductionLine`, fixed to `Line-C`, then
+   compared defect rate across its three shifts. I chose Line-C
+   because it's one of the two lines with a seeded quality issue, so
+   a within-line shift comparison was likely to reveal something
+   meaningful.
+2. **Dice.** I diced across two lines (`Line-C`, `Line-B`) and two
+   shifts (`Morning`, `Night`), comparing total downtime for each of
+   the four combinations. I chose these two lines because they're
+   the two with seeded problem machines, so comparing them head-to-head
+   highlights where downtime is concentrated.
+3. **Drilldown.** I drilled down from the most recent year (2025)
+   into monthly downtime detail, revealing which specific month had
+   the worst downtime rather than just an annual total.
+4. **Rollup.** I rolled up total downtime minutes through
+   Month → Quarter → Year → All Time, using DuckDB's `ROLLUP`
+   operator to compute every summary level in one query.
+5. **OS.** Windows.
+6. **Reporting Tool.** Power BI Desktop path (loading the exported
+   `manufacturing_reporting_abdelhafidh.csv`).
+7. **Custom Reporting.** Beyond slice/dice/roll-up/drill-down, I
+   added a **top-N ranking** (`top_machines_by_downtime`) that
+   identifies the 5 individual machines causing the most total
+   downtime — the same "leaderboard" pattern I added to my Phase 4
+   modification, applied here to machines instead of products.
 
 ### Findings
 
-Describe what your OLAP analysis revealed.
-
-Include:
-
-1. Slice. What your **slice** showed about that dimension
-2. Dice. What your **dice** revealed about the combination of dimensions
-3. Drilldown. What the **drilldown** exposed that the summary view missed
-4. Rollup. What the **rollup** revealed at a higher summary level
-5. Results. Any surprising or counterintuitive results
+1. **Slice.** On Line-C, the **Afternoon** shift had the highest
+   defect rate (2.81%), only marginally ahead of Night (2.79%) and
+   Morning (2.72%) — the three shifts on this line are much closer to
+   each other than I expected, suggesting the line's quality issue is
+   fairly constant across shifts rather than tied to one crew.
+2. **Dice.** The strongest downtime combination was **Line-B / Night**
+   (16,090 minutes), narrowly ahead of Line-B/Morning (16,052
+   minutes) — both well above Line-C's two shifts (~13.9K minutes
+   each). This points to Line-B, not Line-C, as the bigger downtime
+   problem overall, even though Line-C was the slice I chose to
+   inspect quality on.
+3. **Drilldown.** April 2025 was the worst month for downtime (6,891
+   minutes), noticeably higher than the months around it — this kind
+   of spike wouldn't be visible at all from the quarterly or annual
+   roll-up alone.
+4. **Rollup.** Total downtime across all time was 143,318 minutes
+   (about 2,389 hours). At the quarterly level, downtime fluctuates
+   between roughly 17,600 and 18,700 minutes per quarter, without a
+   clear long-term trend up or down.
+5. **Results.** The most striking, and slightly surprising, result
+   was the **Top 5 Machines** chart: machine **M-201** on Line-B
+   alone accounts for 35,086 minutes of downtime — almost 50% more
+   than the next-worst machine (M-303, 23,524 minutes), and roughly
+   2.5x more than the third through fifth worst machines, which are
+   all clustered close together around 13,400-13,500 minutes. This
+   confirms the dice result: Line-B's downtime problem is really
+   concentrated in one machine, not spread evenly.
 
 ### Summary
 
-Summarize your custom reporting work.
+Beyond replicating the original example's slice/dice/roll-up/drill-down
+pattern, I added a top-N ranking and applied the whole technique to a
+new domain with new measures (defect rate and downtime instead of
+sales dollars). The clearest business insight is that **one machine
+(M-201) is responsible for a disproportionate share of all downtime**
+— a maintenance team could use this single chart to justify
+prioritizing that machine for inspection or replacement ahead of
+everything else. More broadly, this project reinforced for me that
+OLAP techniques are domain-agnostic: the same slice/dice/roll-up/
+drill-down/top-N pattern that works for retail sales data works just
+as well for manufacturing quality and reliability data, because the
+underlying structure (measures broken down by dimensions and time) is
+the same regardless of industry. This kind of analysis could directly
+support real decisions like maintenance scheduling, shift staffing
+adjustments, or capital investment in replacing underperforming
+equipment.
 
-Include specifics showcasing your analysis:
-
-- What you implemented beyond the example
-- What business insights your queries produced
-- What you learned about OLAP reporting
-- What kinds of real business decisions this analysis could support
-
-Display charts, visuals, screenshots showcasing your OLAP results.
+See the charts in the [README](../README.md#findings-and-visuals) for
+the full set of visuals from both my Phase 4 modification and this
+Phase 5 custom project.
